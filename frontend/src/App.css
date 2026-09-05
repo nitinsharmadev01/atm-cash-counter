@@ -1,0 +1,45 @@
+/* App.css */
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #f8fafc;
+  /* Subtle slate background */
+}
+
+/* Custom Network Status Indicators */
+.status-indicator {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 0.4rem 0.75rem;
+  border-radius: 9999px;
+  width: fit-content;
+}
+
+.status-indicator.online {
+  background-color: #f0fdf4;
+  color: #166534;
+  border: 1px solid #bbf7d0;
+}
+
+.status-indicator.offline {
+  background-color: #fffbeb;
+  color: #b45309;
+  border: 1px solid #fde68a;
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.online .status-dot {
+  background-color: #22c55e;
+}
+
+.offline .status-dot {
+  background-color: #f59e0b;
+}
