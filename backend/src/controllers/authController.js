@@ -22,7 +22,7 @@ class AuthController {
       res.cookie("token", token, {
         httpOnly: true,
         secure: process.env.NODE_ENV === "production",
-        sameSite: "strict", // Protects against CSRF
+        sameSite: "none",
         maxAge: SESSION_EXPIRY, // 10 minutes
       });
 
