@@ -66,7 +66,7 @@ const Transactions = () => {
                 hover
                 className="mb-0 align-middle custom-transaction-table"
               >
-                <thead className="bg-light d-none d-md-table-header-group">
+                <thead className="bg-light">
                   <tr>
                     <th className="px-4 py-3 text-muted">ID & Date</th>
                     <th className="py-3 text-muted text-end">Amount</th>
@@ -75,24 +75,28 @@ const Transactions = () => {
                     <th className="px-4 py-3 text-muted text-center">Status</th>
                   </tr>
                 </thead>
+
                 <tbody>
                   {transactions.map((tx) => (
                     <tr
                       key={tx._id || tx.transactionId}
-                      className="d-block d-md-table-row mb-3 mb-md-0 shadow-sm shadow-md-none p-3 p-md-0 border rounded bg-white"
+                      className="transaction-table-row"
                     >
                       {/* ID & Date */}
-                      <td className="px-md-4 py-2 py-md-3 d-flex d-md-table-cell justify-content-between align-items-center border-0 border-bottom-md">
-                        <span className="d-md-none fw-bold text-muted small">
-                          ID & Date:
-                        </span>
-                        <div className="text-end text-md-start">
+                      <td className="px-md-4 py-2 py-md-3">
+                        <span className="mobile-label">ID & Date:</span>
+
+                        <div className="text-md-start">
                           <div
                             className="fw-medium text-primary text-break font-monospace"
-                            style={{ fontSize: "0.85rem", maxWidth: "180px" }}
+                            style={{
+                              fontSize: "0.85rem",
+                              maxWidth: "180px",
+                            }}
                           >
                             {tx.transactionId}
                           </div>
+
                           <div
                             className="text-muted"
                             style={{ fontSize: "0.75rem" }}
@@ -103,38 +107,34 @@ const Transactions = () => {
                       </td>
 
                       {/* Amount */}
-                      <td className="py-2 py-md-3 d-flex d-md-table-cell justify-content-between align-items-center border-0 border-bottom-md fw-bold text-end">
-                        <span className="d-md-none fw-bold text-muted small">
-                          Amount:
-                        </span>
+                      <td className="py-2 py-md-3 fw-bold text-md-end">
+                        <span className="mobile-label">Amount:</span>
+
                         <span className="text-dark">
                           ₹{tx.amount?.toLocaleString("en-IN")}
                         </span>
                       </td>
 
                       {/* Dispensed Notes */}
-                      <td className="py-2 py-md-3 d-flex d-md-table-cell justify-content-between align-items-center border-0 border-bottom-md text-muted small">
-                        <span className="d-md-none fw-bold text-muted small">
-                          Dispensed Notes:
-                        </span>
-                        <span className="text-end text-md-start">
+                      <td className="py-2 py-md-3 text-muted small">
+                        <span className="mobile-label">Dispensed Notes:</span>
+
+                        <span className="text-md-start">
                           {formatNotes(tx.dispensedNotes)}
                         </span>
                       </td>
 
                       {/* Balance After */}
-                      <td className="py-2 py-md-3 d-flex d-md-table-cell justify-content-between align-items-center border-0 border-bottom-md text-muted small text-end">
-                        <span className="d-md-none fw-bold text-muted small">
-                          Balance After:
-                        </span>
+                      <td className="py-2 py-md-3 text-muted small text-md-end">
+                        <span className="mobile-label">Balance After:</span>
+
                         <span>₹{tx.balanceAfter?.toLocaleString("en-IN")}</span>
                       </td>
 
                       {/* Status */}
-                      <td className="px-md-4 py-2 py-md-3 d-flex d-md-table-cell justify-content-between align-items-center border-0 text-md-center">
-                        <span className="d-md-none fw-bold text-muted small">
-                          Status:
-                        </span>
+                      <td className="px-md-4 py-2 py-md-3 text-md-center">
+                        <span className="mobile-label">Status:</span>
+
                         <div>{getStatusBadge(tx.status)}</div>
                       </td>
                     </tr>
@@ -143,8 +143,8 @@ const Transactions = () => {
                   {transactions.length === 0 && (
                     <tr>
                       <td
-                        colSpan="5"
-                        className="text-center py-5 text-muted fw-medium border-0"
+                        colSpan={5}
+                        className="text-center py-5 text-muted fw-medium"
                       >
                         No transaction history found.
                       </td>

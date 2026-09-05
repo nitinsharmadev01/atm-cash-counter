@@ -102,7 +102,7 @@ const SyncQueue = () => {
               hover
               className="mb-0 align-middle custom-sync-table"
             >
-              <thead className="bg-light d-none d-md-table-header-group">
+              <thead className="bg-light">
                 <tr>
                   <th className="px-4 py-3 text-muted">Sync ID / Time</th>
                   <th className="py-3 text-muted text-end">Amount</th>
@@ -110,24 +110,21 @@ const SyncQueue = () => {
                   <th className="px-4 py-3 text-muted">System Note</th>
                 </tr>
               </thead>
+
               <tbody>
                 {queue.map((tx) => (
-                  <tr
-                    key={tx.syncId}
-                    className="d-block d-md-table-row mb-3 mb-md-0 shadow-sm shadow-md-none p-3 p-md-0 border rounded bg-white"
-                  >
-                    {/* Sync ID & Time */}
-                    <td className="px-md-4 py-2 py-md-3 d-flex d-md-table-cell justify-content-between align-items-center border-0 border-bottom-md">
-                      <span className="d-md-none fw-bold text-muted small">
-                        Sync ID / Time:
-                      </span>
-                      <div className="text-end text-md-start">
+                  <tr key={tx.syncId} className="sync-table-row">
+                    <td className="px-md-4 py-2 py-md-3">
+                      <span className="mobile-label">Sync ID / Time:</span>
+
+                      <div className="text-md-start">
                         <div
                           className="fw-medium text-secondary text-break font-monospace"
                           style={{ fontSize: "0.8rem", maxWidth: "200px" }}
                         >
                           {tx.syncId}
                         </div>
+
                         <div
                           className="text-muted"
                           style={{ fontSize: "0.75rem" }}
@@ -137,39 +134,26 @@ const SyncQueue = () => {
                       </div>
                     </td>
 
-                    {/* Amount */}
-                    <td className="py-2 py-md-3 d-flex d-md-table-cell justify-content-between align-items-center border-0 border-bottom-md fw-bold text-end">
-                      <span className="d-md-none fw-bold text-muted small">
-                        Amount:
-                      </span>
+                    <td className="py-2 py-md-3 text-md-end fw-bold">
+                      <span className="mobile-label">Amount:</span>
                       <span>₹{tx.amount.toLocaleString("en-IN")}</span>
                     </td>
 
-                    {/* Status */}
-                    <td className="py-2 py-md-3 d-flex d-md-table-cell justify-content-between align-items-center border-0 border-bottom-md text-md-center">
-                      <span className="d-md-none fw-bold text-muted small">
-                        Status:
-                      </span>
+                    <td className="py-2 py-md-3 text-md-center">
+                      <span className="mobile-label">Status:</span>
                       <div>{getStatusBadge(tx.status)}</div>
                     </td>
 
-                    {/* System Note */}
-                    <td className="px-md-4 py-2 py-md-3 d-flex d-md-table-cell justify-content-between align-items-center border-0 text-danger small">
-                      <span className="d-md-none fw-bold text-muted small">
-                        System Note:
-                      </span>
-                      <span className="text-end text-md-start">
-                        {tx.error || "-"}
-                      </span>
+                    <td className="px-md-4 py-2 py-md-3 text-danger small">
+                      <span className="mobile-label">System Note:</span>
+                      <span>{tx.error || "-"}</span>
                     </td>
                   </tr>
                 ))}
+
                 {queue.length === 0 && (
                   <tr>
-                    <td
-                      colSpan="4"
-                      className="text-center py-5 text-muted fw-medium border-0"
-                    >
+                    <td colSpan="4" className="text-center py-5 text-muted">
                       Queue is empty. All transactions are synchronized.
                     </td>
                   </tr>
