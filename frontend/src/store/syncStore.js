@@ -8,6 +8,7 @@ export const useSyncStore = create((set) => ({
 
   updatePendingCount: async () => {
     const pending = await transactionDB.getPendingTransactions();
+    console.log("pending", pending);
     set({ pendingCount: pending.length });
   },
 

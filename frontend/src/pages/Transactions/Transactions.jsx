@@ -19,27 +19,6 @@ const Transactions = () => {
     }
   };
 
-  // const getStatusBadge = (status) => {
-  //   switch (status) {
-  //     case "SUCCESS":
-  //       return <Badge bg="success">Success</Badge>;
-  //     case "SYNCED":
-  //       return <Badge bg="info">Synced</Badge>;
-  //     case "PENDING":
-  //       return (
-  //         <Badge bg="warning" text="dark">
-  //           Pending
-  //         </Badge>
-  //       );
-  //     case "FAILED":
-  //       return <Badge bg="danger">Failed</Badge>;
-  //     case "CONFLICT":
-  //       return <Badge bg="danger">Conflict</Badge>;
-  //     default:
-  //       return <Badge bg="secondary">{status}</Badge>;
-  //   }
-  // };
-
   const getStatusBadge = (status, syncStatus) => {
     if (status === "FAILED" || syncStatus === "CONFLICT") {
       return <Badge bg="danger">Conflict / Failed</Badge>;
@@ -81,53 +60,199 @@ const Transactions = () => {
               <Spinner animation="border" variant="primary" />
             </div>
           ) : (
-            <Table responsive hover className="mb-0 align-middle">
-              <thead className="bg-light">
-                <tr>
-                  <th className="px-4 py-3 text-muted">ID & Date</th>
-                  <th className="py-3 text-muted text-end">Amount</th>
-                  <th className="py-3 text-muted">Dispensed Notes</th>
-                  <th className="py-3 text-muted text-end">Balance After</th>
-                  <th className="px-4 py-3 text-muted text-center">Status</th>
-                </tr>
-              </thead>
-              <tbody>
-                {transactions.map((tx) => (
-                  <tr key={tx._id || tx.transactionId}>
-                    <td className="px-4 py-3">
-                      <div
-                        className="fw-medium text-primary"
-                        style={{ fontSize: "0.9rem" }}
-                      >
-                        {tx.transactionId}
-                      </div>
-                      <div className="text-muted small">
-                        {new Date(tx.createdAt).toLocaleString("en-IN")}
-                      </div>
-                    </td>
-                    <td className="py-3 fw-bold text-end">
-                      ₹{tx.amount?.toLocaleString("en-IN")}
-                    </td>
-                    <td className="py-3 text-muted small">
-                      {formatNotes(tx.dispensedNotes)}
-                    </td>
-                    <td className="py-3 text-end text-muted">
-                      ₹{tx.balanceAfter?.toLocaleString("en-IN")}
-                    </td>
-                    <td className="px-4 py-3 text-center">
-                      {getStatusBadge(tx.status)}
-                    </td>
-                  </tr>
-                ))}
-                {transactions.length === 0 && (
+            <div className="table-responsive-container">
+              <Table
+                responsive="md"
+                hover
+                className="mb-0 align-middle custom-transaction-table"
+              >
+                <thead className="bg-light d-none d-md-table-header-group">
                   <tr>
-                    <td colSpan="5" className="text-center py-5 text-muted">
-                      No transactions found.
-                    </td>
+                    <th className="px-4 py-3 text-muted">ID & Date</th>
+                    <th className="py-3 text-muted text-end">Amount</th>
+                    <th className="py-3 text-muted">Dispensed Notes</th>
+                    <th className="py-3 text-muted text-end">Balance After</th>
+                    <th className="px-4 py-3 text-muted text-center">Status</th>
                   </tr>
-                )}
-              </tbody>
-            </Table>
+                </thead>
+                <tbody>
+                  {transactions.map((tx) => (
+                    <tr
+                      key={tx._id || tx.transactionId}
+                      className="d-block d-md-table-row mb-3 mb-md-0 shadow-sm shadow-md-none p-3 p-md-0 border rounded bg-white"
+                    >
+                      {/* ID & Date */}
+                      <td className="px-md-4 py-2 py-md-3 d-flex d-md-table-cell justify-content-between align-items-center border-0 border-bottom-md">
+                        <span className="d-md-none fw-bold text-muted small">
+                          ID & Date:
+                        </span>
+                        <div className="text-end text-md-start">
+                          <div
+                            className="fw-medium text-primary text-break font-monospace"
+                            style={{ fontSize: "0.85rem", maxWidth: "180px" }}
+                          >
+                            {tx.transactionId}
+                          </div>
+                          <div
+                            className="text-muted"
+                            style={{ fontSize: "0.75rem" }}
+                          >
+                            {new Date(tx.createdAt).toLocaleString("en-IN")}
+                          </div>
+                        </div>
+                      </td>
+
+                      {/* Amount */}
+                      <td className="py-2 py-md-3 d-flex d-md-table-cell justify-content-between align-items-center border-0 border-bottom-md fw-bold text-end">
+                        <span className="d-md-none fw-bold text-muted small">
+                          Amount:
+                        </span>
+                        <span className="text-dark">
+                          ₹{tx.amount?.toLocaleString("en-IN")}
+                        </span>
+                      </td>
+
+                      {/* Dispensed Notes */}
+                      <td className="py-2 py-md-3 d-flex d-md-table-cell justify-content-between align-items-center border-0 border-bottom-md text-muted small">
+                        <span className="d-md-none fw-bold text-muted small">
+                          Dispensed Notes:
+                        </span>
+                        <span className="text-end text-md-start">
+                          {formatNotes(tx.dispensedNotes)}
+                        </span>
+                      </td>
+
+                      {/* Balance After */}
+                      <td className="py-2 py-md-3 d-flex d-md-table-cell justify-content-between align-items-center border-0 border-bottom-md text-muted small text-end">
+                        <span className="d-md-none fw-bold text-muted small">
+                          Balance After:
+                        </span>
+                        <span>₹{tx.balanceAfter?.toLocaleString("en-IN")}</span>
+                      </td>
+
+                      {/* Status */}
+                      <td className="px-md-4 py-2 py-md-3 d-flex d-md-table-cell justify-content-between align-items-center border-0 text-md-center">
+                        <span className="d-md-none fw-bold text-muted small">
+                          Status:
+                        </span>
+                        <div>{getStatusBadge(tx.status)}</div>
+                      </td>
+                    </tr>
+                  ))}
+
+                  {transactions.length === 0 && (
+                    <tr>
+                      <td
+                        colSpan="5"
+                        className="text-center py-5 text-muted fw-medium border-0"
+                      >
+                        No transaction history found.
+                      </td>
+                    </tr>
+                  )}
+                </tbody>
+              </Table>
+            </div>
+            // <div className="table-responsive-container">
+            //   {/* Desktop & Tablet Table View */}
+            //   <div className="d-none d-md-block">
+            //     <Table responsive hover className="mb-0 align-middle">
+            //       <thead className="bg-light">
+            //         <tr>
+            //           <th className="px-4 py-3 text-muted">ID & Date</th>
+            //           <th className="py-3 text-muted text-end">Amount</th>
+            //           <th className="py-3 text-muted">Dispensed Notes</th>
+            //           <th className="py-3 text-muted text-end">
+            //             Balance After
+            //           </th>
+            //           <th className="px-4 py-3 text-muted text-center">
+            //             Status
+            //           </th>
+            //         </tr>
+            //       </thead>
+            //       <tbody>
+            //         {transactions.map((tx) => (
+            //           <tr key={tx._id || tx.transactionId}>
+            //             <td className="px-4 py-3">
+            //               <div
+            //                 className="fw-medium text-primary"
+            //                 style={{ fontSize: "0.9rem" }}
+            //               >
+            //                 {tx.transactionId}
+            //               </div>
+            //               <div className="text-muted small">
+            //                 {new Date(tx.createdAt).toLocaleString("en-IN")}
+            //               </div>
+            //             </td>
+            //             <td className="py-3 fw-bold text-end">
+            //               ₹{tx.amount?.toLocaleString("en-IN")}
+            //             </td>
+            //             <td className="py-3 text-muted small">
+            //               {formatNotes(tx.dispensedNotes)}
+            //             </td>
+            //             <td className="py-3 text-end text-muted">
+            //               ₹{tx.balanceAfter?.toLocaleString("en-IN")}
+            //             </td>
+            //             <td className="px-4 py-3 text-center">
+            //               {getStatusBadge(tx.status)}
+            //             </td>
+            //           </tr>
+            //         ))}
+            //       </tbody>
+            //     </Table>
+            //   </div>
+
+            //   {/* Mobile Card View (Visible only on small screens) */}
+            //   <div className="d-md-none">
+            //     {transactions.map((tx) => (
+            //       <div
+            //         key={tx._id || tx.transactionId}
+            //         className="card mb-3 shadow-sm border-0 p-3"
+            //       >
+            //         <div className="d-flex justify-content-between align-items-start mb-2">
+            //           <div>
+            //             <div
+            //               className="fw-medium text-primary"
+            //               style={{ fontSize: "0.85rem" }}
+            //             >
+            //               {tx.transactionId}
+            //             </div>
+            //             <div
+            //               className="text-muted"
+            //               style={{ fontSize: "0.75rem" }}
+            //             >
+            //               {new Date(tx.createdAt).toLocaleString("en-IN")}
+            //             </div>
+            //           </div>
+            //           <div>{getStatusBadge(tx.status)}</div>
+            //         </div>
+
+            //         <hr className="my-2 text-muted opacity-25" />
+
+            //         <div className="d-flex justify-content-between align-items-center mb-1">
+            //           <span className="text-muted small">Amount:</span>
+            //           <span className="fw-bold text-dark">
+            //             ₹{tx.amount?.toLocaleString("en-IN")}
+            //           </span>
+            //         </div>
+
+            //         <div className="d-flex justify-content-between align-items-center mb-1">
+            //           <span className="text-muted small">Dispensed Notes:</span>
+            //           <span className="text-muted small text-end">
+            //             {formatNotes(tx.dispensedNotes)}
+            //           </span>
+            //         </div>
+
+            //         <div className="d-flex justify-content-between align-items-center">
+            //           <span className="text-muted small">Balance After:</span>
+            //           <span className="text-muted small">
+            //             ₹{tx.balanceAfter?.toLocaleString("en-IN")}
+            //           </span>
+            //         </div>
+            //       </div>
+            //     ))}
+            //   </div>
+            // </div>
           )}
         </Card.Body>
 

@@ -62,6 +62,7 @@ const SyncQueue = () => {
           </p>
         </div>
         <Button
+          size="sm"
           variant="primary"
           onClick={handleManualSync}
           disabled={isOffline || isSyncing || queue.length === 0}
@@ -96,8 +97,12 @@ const SyncQueue = () => {
               <Spinner animation="border" variant="primary" />
             </div>
           ) : (
-            <Table responsive hover className="mb-0 align-middle">
-              <thead className="bg-light">
+            <Table
+              responsive="md"
+              hover
+              className="mb-0 align-middle custom-sync-table"
+            >
+              <thead className="bg-light d-none d-md-table-header-group">
                 <tr>
                   <th className="px-4 py-3 text-muted">Sync ID / Time</th>
                   <th className="py-3 text-muted text-end">Amount</th>
@@ -107,26 +112,55 @@ const SyncQueue = () => {
               </thead>
               <tbody>
                 {queue.map((tx) => (
-                  <tr key={tx.syncId}>
-                    <td className="px-4 py-3">
-                      <div
-                        className="fw-medium text-secondary"
-                        style={{ fontSize: "0.85rem" }}
-                      >
-                        {tx.syncId}
+                  <tr
+                    key={tx.syncId}
+                    className="d-block d-md-table-row mb-3 mb-md-0 shadow-sm shadow-md-none p-3 p-md-0 border rounded bg-white"
+                  >
+                    {/* Sync ID & Time */}
+                    <td className="px-md-4 py-2 py-md-3 d-flex d-md-table-cell justify-content-between align-items-center border-0 border-bottom-md">
+                      <span className="d-md-none fw-bold text-muted small">
+                        Sync ID / Time:
+                      </span>
+                      <div className="text-end text-md-start">
+                        <div
+                          className="fw-medium text-secondary text-break font-monospace"
+                          style={{ fontSize: "0.8rem", maxWidth: "200px" }}
+                        >
+                          {tx.syncId}
+                        </div>
+                        <div
+                          className="text-muted"
+                          style={{ fontSize: "0.75rem" }}
+                        >
+                          {new Date(tx.timestamp).toLocaleString("en-IN")}
+                        </div>
                       </div>
-                      <div className="text-muted small">
-                        {new Date(tx.timestamp).toLocaleString("en-IN")}
-                      </div>
                     </td>
-                    <td className="py-3 fw-bold text-end">
-                      ₹{tx.amount.toLocaleString("en-IN")}
+
+                    {/* Amount */}
+                    <td className="py-2 py-md-3 d-flex d-md-table-cell justify-content-between align-items-center border-0 border-bottom-md fw-bold text-end">
+                      <span className="d-md-none fw-bold text-muted small">
+                        Amount:
+                      </span>
+                      <span>₹{tx.amount.toLocaleString("en-IN")}</span>
                     </td>
-                    <td className="py-3 text-center">
-                      {getStatusBadge(tx.status)}
+
+                    {/* Status */}
+                    <td className="py-2 py-md-3 d-flex d-md-table-cell justify-content-between align-items-center border-0 border-bottom-md text-md-center">
+                      <span className="d-md-none fw-bold text-muted small">
+                        Status:
+                      </span>
+                      <div>{getStatusBadge(tx.status)}</div>
                     </td>
-                    <td className="px-4 py-3 text-muted small text-danger">
-                      {tx.error || "-"}
+
+                    {/* System Note */}
+                    <td className="px-md-4 py-2 py-md-3 d-flex d-md-table-cell justify-content-between align-items-center border-0 text-danger small">
+                      <span className="d-md-none fw-bold text-muted small">
+                        System Note:
+                      </span>
+                      <span className="text-end text-md-start">
+                        {tx.error || "-"}
+                      </span>
                     </td>
                   </tr>
                 ))}
@@ -134,7 +168,7 @@ const SyncQueue = () => {
                   <tr>
                     <td
                       colSpan="4"
-                      className="text-center py-5 text-muted fw-medium"
+                      className="text-center py-5 text-muted fw-medium border-0"
                     >
                       Queue is empty. All transactions are synchronized.
                     </td>

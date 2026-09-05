@@ -18,7 +18,6 @@ api.interceptors.response.use(
     // === GLOBAL SUCCESS HANDLER ===
     const { data, config } = response;
 
-    // Agar status true hai, message aaya hai, aur request GET nahi hai
     if (data && data.status === true && data.message) {
       if (config.method !== "get") {
         toast.success(data.message);

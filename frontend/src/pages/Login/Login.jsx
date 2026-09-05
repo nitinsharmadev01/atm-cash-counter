@@ -1,110 +1,3 @@
-// import { useState } from "react";
-// import { useNavigate } from "react-router-dom";
-// import { Container, Card, Form, Button, Alert } from "react-bootstrap";
-// import { loginUser } from "../../services/authApi";
-// import { useAuthStore } from "../../store/authStore";
-
-// const Login = () => {
-//   const [formData, setFormData] = useState({ email: "", password: "" });
-//   const [uiState, setUiState] = useState({ error: "", isLoading: false });
-
-//   const login = useAuthStore((state) => state.login);
-//   const navigate = useNavigate();
-
-//   const handleChange = (e) => {
-//     const { name, value } = e.target;
-//     setFormData((prev) => ({ ...prev, [name]: value }));
-//   };
-
-//   const handleSubmit = async (e) => {
-//     e.preventDefault();
-//     const { email, password } = formData;
-
-//     if (!email.trim() || !password.trim()) {
-//       setUiState((prev) => ({
-//         ...prev,
-//         error: "Please enter both email and password.",
-//       }));
-//       return;
-//     }
-
-//     try {
-//       setUiState({ error: "", isLoading: true });
-//       const response = await loginUser({ email, password });
-//       login(response.data.user);
-//       navigate("/");
-//     } catch (err) {
-//       setUiState({
-//         error:
-//           err.response?.data?.message ||
-//           "Invalid credentials. Please try again.",
-//         isLoading: false,
-//       });
-//     }
-//   };
-
-//   return (
-//     <div className="bg-light min-vh-100 d-flex align-items-center justify-content-center py-5">
-//       <Container className="d-flex justify-content-center">
-//         <Card
-//           className="shadow-sm border-0 w-100"
-//           style={{ maxWidth: "420px", borderRadius: "12px" }}
-//         >
-//           <Card.Body className="p-4 p-sm-5">
-//             <div className="text-center mb-4">
-//               <h2 className="fw-bold text-dark">ATM Console</h2>
-//               <p className="text-muted mb-0">Secure System Access</p>
-//             </div>
-
-//             {uiState.error && <Alert variant="danger">{uiState.error}</Alert>}
-
-//             <Form onSubmit={handleSubmit}>
-//               <Form.Group className="mb-3" controlId="email">
-//                 <Form.Label className="fw-semibold">Email Address</Form.Label>
-//                 <Form.Control
-//                   type="email"
-//                   name="email"
-//                   placeholder="admin@atm.com"
-//                   value={formData.email}
-//                   onChange={handleChange}
-//                   required
-//                   className="py-2"
-//                 />
-//               </Form.Group>
-
-//               <Form.Group className="mb-4" controlId="password">
-//                 <Form.Label className="fw-semibold">Password</Form.Label>
-//                 <Form.Control
-//                   type="password"
-//                   name="password"
-//                   placeholder="••••••••"
-//                   value={formData.password}
-//                   onChange={handleChange}
-//                   required
-//                   className="py-2"
-//                 />
-//               </Form.Group>
-
-//               <Button
-//                 variant="primary"
-//                 type="submit"
-//                 className="w-100 fw-bold py-2 mb-3"
-//                 disabled={uiState.isLoading}
-//               >
-//                 {uiState.isLoading ? "Authenticating..." : "Sign In"}
-//               </Button>
-//             </Form>
-//           </Card.Body>
-//           <Card.Footer className="bg-white border-0 text-center text-muted pb-4 pt-0">
-//             <small>Authorized Personnel Only</small>
-//           </Card.Footer>
-//         </Card>
-//       </Container>
-//     </div>
-//   );
-// };
-
-// export default Login;
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
@@ -115,15 +8,15 @@ import {
   InputGroup,
   Spinner,
 } from "react-bootstrap";
-import { Eye, EyeOff } from "lucide-react"; // Modern minimal icons
-import toast from "react-hot-toast"; // Global toast notifications
+import { Eye, EyeOff } from "lucide-react";
+import toast from "react-hot-toast";
 import { loginUser } from "../../services/authApi";
 import { useAuthStore } from "../../store/authStore";
 
 const Login = () => {
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [isLoading, setIsLoading] = useState(false);
-  const [showPassword, setShowPassword] = useState(false); // Password toggle state
+  const [showPassword, setShowPassword] = useState(false);
 
   const login = useAuthStore((state) => state.login);
   const navigate = useNavigate();
@@ -187,7 +80,7 @@ const Login = () => {
         >
           <Card.Body className="p-4 p-sm-5">
             <div className="text-center mb-4">
-              <h2 className="fw-bold text-dark">ATM Console</h2>
+              <h2 className="fw-bold text-dark"></h2>
               <p className="text-muted mb-0">Secure System Access</p>
             </div>
 
@@ -221,14 +114,14 @@ const Login = () => {
                     value={formData.password}
                     onChange={handleChange}
                     disabled={isLoading}
-                    className="py-2 border-end-0" // Icon button ke sath merge karne ke liye
+                    className="py-2 border-end-0"
                   />
                   <Button
                     variant="outline-secondary"
                     onClick={togglePassword}
                     disabled={isLoading}
                     className="border-start-0 d-flex align-items-center bg-white"
-                    style={{ borderColor: "#dee2e6" }} // Match Bootstrap default border
+                    style={{ borderColor: "#dee2e6" }}
                   >
                     {showPassword ? (
                       <EyeOff size={18} className="text-muted" />

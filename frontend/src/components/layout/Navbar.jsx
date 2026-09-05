@@ -57,7 +57,7 @@ const Navbar = () => {
     >
       <Container>
         <BsNavbar.Brand as={Link} to="/" className="fw-bold text-primary">
-          ATM Console
+          ATM Counter
         </BsNavbar.Brand>
         <BsNavbar.Toggle aria-controls="basic-navbar-nav" />
 

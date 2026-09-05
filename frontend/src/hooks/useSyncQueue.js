@@ -3,7 +3,6 @@ import { transactionDB } from "../db/transactions";
 import { withdrawAmount } from "../services/atmApi";
 
 export const useSyncQueue = () => {
-  //   const { setSyncing, updatePendingCount, addSyncError } = useSyncStore();
   const setSyncing = useSyncStore((state) => state.setSyncing);
   const updatePendingCount = useSyncStore((state) => state.updatePendingCount);
   const addSyncError = useSyncStore((state) => state.addSyncError);

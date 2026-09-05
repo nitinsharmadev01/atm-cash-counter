@@ -8,6 +8,8 @@ export const useInventory = () => {
   const [totalBalance, setTotalBalance] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState("");
+  const [walletResponse, setWalletResponse] = useState(null);
+
   const isOffline = useNetworkStore((state) => state.isOffline);
 
   const loadInventory = useCallback(async () => {
@@ -27,7 +29,7 @@ export const useInventory = () => {
         // Fetch from API
         const response = await fetchInventory();
         const apiInventory = response.data.inventory;
-
+        setWalletResponse(response.data);
         // Cache for offline use
         await transactionDB.saveInventoryLocally(apiInventory);
         calculateAndSet(apiInventory);
@@ -60,5 +62,6 @@ export const useInventory = () => {
     isLoading,
     error,
     refreshInventory: loadInventory,
+    walletResponse,
   };
 };
