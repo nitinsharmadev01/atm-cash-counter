@@ -2,7 +2,7 @@ import axios from "axios";
 import { useAuthStore } from "../store/authStore";
 import toast from "react-hot-toast";
 
-const baseURL = import.meta.env.VITE_API_URL || "http://localhost:5100/api";
+const baseURL = import.meta.env.API_URL || "http://localhost:3000/api";
 
 const api = axios.create({
   baseURL,
@@ -42,7 +42,6 @@ api.interceptors.response.use(
     if (response.status === 401) {
       const isLoginRequest = config.url.includes("/auth/login");
       const authState = useAuthStore.getState();
-
       if (isLoginRequest) {
         toast.error(backendMessage);
       } else if (authState.isAuthenticated) {
