@@ -1,11 +1,16 @@
 import { useSyncStore } from "../store/syncStore";
 import { transactionDB } from "../db/transactions";
 import { withdrawAmount } from "../services/atmApi";
+import { useNetworkStore } from "../store/networkStore";
 
 export const useSyncQueue = () => {
   const setSyncing = useSyncStore((state) => state.setSyncing);
   const updatePendingCount = useSyncStore((state) => state.updatePendingCount);
   const addSyncError = useSyncStore((state) => state.addSyncError);
+  const triggerInventoryRefresh = useNetworkStore(
+    (state) => state.triggerInventoryRefresh,
+  );
+
   const processSyncQueue = async () => {
     const pendingTxs = await transactionDB.getPendingTransactions();
 
@@ -23,6 +28,7 @@ export const useSyncQueue = () => {
 
         // Success hone par local Dexie se remove karein
         await transactionDB.removeSyncedTransaction(tx.syncId);
+        triggerInventoryRefresh();
       } catch (error) {
         // PDF Req: Handle failed/conflicting transactions[cite: 1]
         addSyncError({

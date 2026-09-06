@@ -11,6 +11,9 @@ export const useInventory = () => {
   const [walletResponse, setWalletResponse] = useState(null);
 
   const isOffline = useNetworkStore((state) => state.isOffline);
+  const inventoryRefreshKey = useNetworkStore(
+    (state) => state.inventoryRefreshKey,
+  );
 
   const loadInventory = useCallback(async () => {
     setIsLoading(true);
@@ -54,7 +57,7 @@ export const useInventory = () => {
 
   useEffect(() => {
     loadInventory();
-  }, [loadInventory]);
+  }, [loadInventory, inventoryRefreshKey]);
 
   return {
     inventory,

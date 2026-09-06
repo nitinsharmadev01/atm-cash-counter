@@ -5,13 +5,20 @@ import { useSyncManager } from "./useSyncManager";
 
 export const useNetworkStatus = () => {
   const setOfflineStatus = useNetworkStore((state) => state.setOfflineStatus);
+  // const triggerInventoryRefresh = useNetworkStore(
+  //   (state) => state.triggerInventoryRefresh,
+  // );
+
   const { processSyncQueue } = useSyncQueue();
-  const { processQueue } = useSyncManager();
+  // const { processQueue } = useSyncManager();
 
   useEffect(() => {
     const handleOnline = () => {
+      console.log("useNetworkStatus called");
       setOfflineStatus(false);
       processSyncQueue(); // PDF Req: Auto-sync when internet is restored[cite: 1]
+      // triggerInventoryRefresh();
+
       // processQueue();
     };
     const handleOffline = () => setOfflineStatus(true);

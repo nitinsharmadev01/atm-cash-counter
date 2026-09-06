@@ -31,72 +31,72 @@ const Dashboard = () => {
     success: null,
   });
 
-  const handleWithdraw = async (e) => {
-    e.preventDefault();
-    const withdrawValue = parseInt(amount, 10);
+  // const handleWithdraw = async (e) => {
+  //   e.preventDefault();
+  //   const withdrawValue = parseInt(amount, 10);
 
-    setWithdrawState({ loading: true, error: "", success: null });
+  //   setWithdrawState({ loading: true, error: "", success: null });
 
-    // Client-side validations[cite: 1]
-    if (!withdrawValue || withdrawValue <= 0) {
-      setWithdrawState({
-        loading: false,
-        error: "Please enter a valid positive amount.",
-        success: null,
-      });
-      return;
-    }
-    if (withdrawValue % 50 !== 0) {
-      setWithdrawState({
-        loading: false,
-        error: "Amount must be a multiple of ₹50.",
-        success: null,
-      });
-      return;
-    }
-    if (withdrawValue > totalBalance) {
-      setWithdrawState({
-        loading: false,
-        error: "Insufficient ATM balance.",
-        success: null,
-      });
-      return;
-    }
+  //   // Client-side validations[cite: 1]
+  //   if (!withdrawValue || withdrawValue <= 0) {
+  //     setWithdrawState({
+  //       loading: false,
+  //       error: "Please enter a valid positive amount.",
+  //       success: null,
+  //     });
+  //     return;
+  //   }
+  //   if (withdrawValue % 50 !== 0) {
+  //     setWithdrawState({
+  //       loading: false,
+  //       error: "Amount must be a multiple of ₹50.",
+  //       success: null,
+  //     });
+  //     return;
+  //   }
+  //   if (withdrawValue > totalBalance) {
+  //     setWithdrawState({
+  //       loading: false,
+  //       error: "Insufficient ATM balance.",
+  //       success: null,
+  //     });
+  //     return;
+  //   }
 
-    try {
-      if (isOffline) {
-        // PDF Req: Store offline transaction and queue it[cite: 1]
-        const syncId = "TXN-" + uuidv4().substring(0, 8).toUpperCase();
+  //   try {
+  //     if (isOffline) {
+  //       // PDF Req: Store offline transaction and queue it[cite: 1]
+  //       const syncId = "TXN-" + uuidv4().substring(0, 8).toUpperCase();
 
-        await transactionDB.queueTransaction({
-          amount: withdrawValue,
-          syncId: syncId,
-        });
+  //       await transactionDB.queueTransaction({
+  //         amount: withdrawValue,
+  //         syncId: syncId,
+  //       });
 
-        // Optimistically show success for offline UX
-        setWithdrawState({
-          loading: false,
-          error: "",
-          success: {
-            amountWithdrawn: withdrawValue,
-            status: "QUEUED (Offline)",
-          },
-        });
-      } else {
-        // Online API Call
-        const response = await withdrawAmount({ amount: withdrawValue });
-        setWithdrawState({ loading: false, error: "", success: response.data });
-        refreshInventory();
-      }
-      setAmount("");
-    } catch (err) {
-      setWithdrawState({
-        loading: false,
-        error: err.response?.data?.message || "Withdrawal failed.",
-        success: null,
-      });
-    }
-  };
+  //       // Optimistically show success for offline UX
+  //       setWithdrawState({
+  //         loading: false,
+  //         error: "",
+  //         success: {
+  //           amountWithdrawn: withdrawValue,
+  //           status: "QUEUED (Offline)",
+  //         },
+  //       });
+  //     } else {
+  //       // Online API Call
+  //       const response = await withdrawAmount({ amount: withdrawValue });
+  //       setWithdrawState({ loading: false, error: "", success: response.data });
+  //       refreshInventory();
+  //     }
+  //     setAmount("");
+  //   } catch (err) {
+  //     setWithdrawState({
+  //       loading: false,
+  //       error: err.response?.data?.message || "Withdrawal failed.",
+  //       success: null,
+  //     });
+  //   }
+  // };
 
   if (isLoading) {
     return (
