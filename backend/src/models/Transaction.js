@@ -26,9 +26,6 @@ transactionSchema.index({
   createdAt: -1,
 });
 
-transactionSchema.index({
-  syncId: 1,
-});
 const Transaction = mongoose.model("Transaction", transactionSchema);
 
 module.exports = Transaction;
