@@ -87,14 +87,14 @@ const Navbar = () => {
               {isOffline ? "Offline Mode" : "System Online"}
             </div>
 
-            <Button
+            {/* <Button
               variant="outline-primary"
               size="sm"
               onClick={handleRefill}
               className="fw-semibold"
             >
               Refill ATM
-            </Button>
+            </Button> */}
             <Button
               variant="outline-secondary"
               size="sm"
